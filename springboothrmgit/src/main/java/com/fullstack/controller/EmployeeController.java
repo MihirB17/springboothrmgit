@@ -4,6 +4,7 @@ import com.fullstack.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,11 @@ public class EmployeeController {
     @GetMapping("/sortbyname")
     public ResponseEntity<List<Employee>> sortByName(){
         return new ResponseEntity<>(employeeList.stream().sorted(Comparator.comparing(Employee::getEmpName).reversed()).toList(),HttpStatus.OK);
+    }
+
+    @GetMapping("/findbyid/{empId}")
+    public ResponseEntity<Employee> findById(@PathVariable int empId){
+        return  new ResponseEntity<>(employeeList.stream().filter(emp->emp.getEmpId()==empId).toList().get(0),HttpStatus.OK);
     }
 
 }
